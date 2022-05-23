@@ -3,3 +3,6 @@ from django.http import HttpResponse
 
 def index(request):
     return HttpResponse("My page!")
+
+def play(request):
+    return HttpResponse("<h1>Play!</h1>")
