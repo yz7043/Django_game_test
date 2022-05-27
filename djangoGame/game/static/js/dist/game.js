@@ -35,7 +35,8 @@ class MainGameMenu{
         let outer = this;
         this.$single_mode.click(function(){
             // inner function's this is different from the class this
-            console.log("click solo mode");
+            outer.hide();
+            outer.root.playground.show();
         });
 
         this.$multi_mode.click(function(){
@@ -47,11 +48,45 @@ class MainGameMenu{
             console.log("click setting button");
         });
     }
+
+    show(){
+        // show menu
+        this.$menu.show();
+    }
+
+    hide(){
+        // close menu and show playground
+       this.$menu.hide();
+    }
+}
+class GamePlayGround{
+    constructor(root){
+        this.root = root;
+        this.$playground = $(`
+            <div>Playground Page</div>
+        `);
+        this.hide();
+        this.root.$game.append(this.$playground);
+    }
+
+    start(){}
+
+    show(){
+        this.$playground.show();
+    }
+
+    hide(){
+        this.$playground.hide();
+    }
+
 }
 class MainGame {
     constructor(id){
         this.id = id;
         this.$game = $('#' + id);
         this.menu = new MainGameMenu(this);
+        this.playground = new GamePlayGround(this);
     }
+
+    start(){}
 }
