@@ -1,4 +1,4 @@
-class MainGame {
+export class MainGame {
     constructor(id){
         this.id = id;
         this.$game = $('#' + id);

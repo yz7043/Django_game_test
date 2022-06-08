@@ -59,14 +59,85 @@ class MainGameMenu{
        this.$menu.hide();
     }
 }
+let GAME_OBJECTS = []; // global game object storage
+class GameObject{
+    constructor(){
+        GAME_OBJECTS.push(this);
+        this.isStart = false; // Has start function been called
+        this.deltaTime = 0; // in ms
+    }
+
+    start(){
+        // only called at the first frame
+        this.isStart = true;
+    }
+
+    update(){
+        // called every frame
+    }
+    
+    destroy(){
+        this.onDestroy();
+        for(let i = 0; i < GAME_OBJECTS.length; i++){
+            if(GAME_OBJECTS[i] === this){
+                GAME_OBJECTS.splice(i);
+                break;
+            }
+        }
+    }
+
+    onDestroy(){
+        // called before destroy
+    }
+}
+let last_timestamp;
+let GAME_ANIMATION = function(timestamp){
+    for(let i = 0; i < GAME_OBJECTS.length; i++){
+        let obj = GAME_OBJECTS[i];
+        if(!obj.isStart){
+            obj.start();
+        }else{
+            obj.deltaTime = timestamp - last_timestamp;
+            obj.update();
+        }
+    }
+    last_timestamp = timestamp;
+    requestAnimationFrame(GAME_ANIMATION);
+}
+requestAnimationFrame(GAME_ANIMATION);
+class GameMap extends GameObject{
+    constructor(playground){
+        super();
+        this.playground = playground;
+        this.$canvas = $(`<canvas></canvas>`);
+        this.ctx = this.$canvas[0].getContext('2d');
+        this.ctx.canvas.width = this.playground.width;
+        this.ctx.canvas.height = this.playground.height;
+        console.log("ground width: " + this.playground.width);
+        console.log("ground height: " + this.playground.height);
+        this.playground.$playground.append(this.$canvas);
+    }
+
+    start(){}
+
+    update(){}
+}
 class GamePlayGround{
     constructor(root){
         this.root = root;
         this.$playground = $(`
-            <div>Playground Page</div>
+        <div class="main_game_playground"></div>
         `);
         this.hide();
         this.root.$game.append(this.$playground);
+        this.width = this.$playground.width();
+        this.height = this.$playground.height();
+        console.log("ground width before: " + this.$playground.width());
+        console.log("ground height before: " + this.$playground.width());
+        this.game_map = new GameMap(this);
+        console.log("root width: " + this.root.$game.width());
+        console.log("root height: " + this.root.$game.height());
+        
     }
 
     start(){}
@@ -80,7 +151,7 @@ class GamePlayGround{
     }
 
 }
-class MainGame {
+export class MainGame {
     constructor(id){
         this.id = id;
         this.$game = $('#' + id);

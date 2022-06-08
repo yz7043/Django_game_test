@@ -5,12 +5,13 @@
     <link rel="stylesheet" href="https://cdn.acwing.com/static/jquery-ui-dist/jquery-ui.min.css">
     <script src="https://cdn.acwing.com/static/jquery/js/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/game.css' %}">
-    <script src="{% static 'js/dist/game.js'  %}"></script>
+    <!-- <script src="{% static 'js/dist/game.js'  %}"></script> -->
 </head>
 
 <body style="margin: 0; height:100vh; width:100%">
     <div id="django_game_0" style="height:100%; width:100%"></div>
-    <script>
+    <script type="module">
+        import {MainGame} from "{% static 'js/dist/game.js' %}";
         $(document).ready(function(){
             let main_game = new MainGame("django_game_0");
         });
