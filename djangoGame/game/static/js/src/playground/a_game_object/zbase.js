@@ -14,7 +14,7 @@ class GameObject{
     update(){
         // called every frame
     }
-    
+
     destroy(){
         this.onDestroy();
         for(let i = 0; i < GAME_OBJECTS.length; i++){

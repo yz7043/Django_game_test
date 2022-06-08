@@ -9,7 +9,16 @@ class GameMap extends GameObject{
         this.playground.$playground.append(this.$canvas);
     }
 
-    start(){}
+    start(){
+        super.start();
+    }
 
-    update(){}
+    update(){
+        this.render();
+    }
+
+    render(){
+        this.ctx.fillStyle = "rgba(0,0,0,0.2)";
+        this.ctx.fillRect(0,0,this.ctx.canvas.width, this.ctx.canvas.height);
+    }
 }
